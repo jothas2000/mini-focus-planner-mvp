@@ -1,22 +1,113 @@
-// src/components/TaskList.tsx
+"use client";
+
+import { useState } from "react";
+import { useTaskStore } from "../store/useTaskStore";
+import { useStoreHydration } from "../hooks/useStoreHydration";
+import { TaskCard } from "./TaskCard";
 import { Task } from "../types";
-import { TaskCard } from "./TaskCard"; // Importando o novo componente!
 
-interface TaskListProps {
-  tasks: Task[];
-}
+type FilterType = "all" | "pending" | "done";
 
-export function TaskList({ tasks }: TaskListProps) {
-  if (tasks.length === 0) {
-    return <div className="text-center py-10 text-gray-500">Nenhuma tarefa encontrada.</div>;
+// limite de itens por paginas
+const ITEMS_PER_PAGE = 5; 
+
+export function TaskList() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tasks = useStoreHydration<any, Task[]>(
+    useTaskStore, 
+    (state) => state.tasks
+  );
+
+  const [activeFilter, setActiveFilter] = useState<FilterType>("all");
+  
+  // começa na primeira
+  const [currentPage, setCurrentPage] = useState(1); 
+
+  // reseta filtro e paginação ao mudar de filtro, para evitar páginas vazias
+  function handleFilterChange(filter: FilterType) {
+    setActiveFilter(filter);
+    setCurrentPage(1); // reseta para a primeira página quando muda no filtro
   }
+  // proteção para quando as tarefas ainda estão sendo carregadas (ex: do localStorage)
+  if (!tasks) {
+    return <div className="text-center py-10 text-gray-500">Carregando tarefas...</div>;
+  }
+
+  // friltra tudo
+  const filteredTasks = tasks.filter((task) => {
+    if (activeFilter === "all") return true;
+    return task.status === activeFilter;
+  });
+
+  /// calcula a paginação com base na lista filtrada
+  const totalPages = Math.ceil(filteredTasks.length / ITEMS_PER_PAGE) || 1;
+
+  // se a página atual ficar maior que o total (ex: apagou a última tarefa da página 2), 
+  // voltamos para a última página válida
+  if (currentPage > totalPages) {
+    setCurrentPage(totalPages);
+  }
+
+  // fatia a lista filtrada para mostrar apenas os itens da página atual
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedTasks = filteredTasks.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
     <div className="flex flex-col gap-4">
-      {tasks.map((task) => (
-        // Renderizando o card dinâmico passando a prop
-        <TaskCard key={task.id} task={task} /> 
-      ))}
+      <div className="flex gap-2 mb-2">
+        <button 
+          onClick={() => handleFilterChange("all")}
+          className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${activeFilter === "all" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+        >
+          Todas
+        </button>
+        <button 
+          onClick={() => handleFilterChange("pending")}
+          className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${activeFilter === "pending" ? "bg-yellow-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+        >
+          Pendentes
+        </button>
+        <button 
+          onClick={() => handleFilterChange("done")}
+          className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${activeFilter === "done" ? "bg-green-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+        >
+          Concluídas
+        </button>
+      </div>
+      {filteredTasks.length === 0 ? (
+        <div className="text-center py-10 text-gray-500 bg-white border border-dashed rounded-lg">
+          Nenhuma tarefa encontrada para este filtro.
+        </div>
+      ) : (
+        <>
+          <div className="flex flex-col gap-4">
+            {paginatedTasks.map((task: Task) => (
+              <TaskCard key={task.id} task={task} />
+            ))}
+          </div>
+          {totalPages > 1 && (
+            <div className="flex justify-between items-center mt-4 p-4 bg-white border rounded-lg shadow-sm">
+              <button 
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+              >
+                Anterior
+              </button>
+              <span className="text-sm text-gray-600 font-medium">
+                Página {currentPage} de {totalPages}
+              </span>
+              <button 
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                className="px-4 py-2 bg-gray-100 text-gray-700 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
+              >
+                Próxima
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

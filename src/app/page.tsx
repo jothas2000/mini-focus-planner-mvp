@@ -1,6 +1,5 @@
-// src/app/page.tsx
+import { TaskForm } from "@/components/addTaskForm";
 import { TaskList } from "@/components/TaskList";
-import { mockTasks } from "@/mocks/tasks";
 
 export default function Home() {
   return (
@@ -8,15 +7,13 @@ export default function Home() {
       <div className="max-w-2xl mx-auto p-6">
         
         <header className="mb-8 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Mini Focus Planner</h1>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 font-medium">
-            Nova Tarefa
-          </button>
+          <h1 className="text-2xl font-bold">mini focus planner</h1>
         </header>
 
-        {/* Nossa lista agora recebe os dados reais (mockados) via props! */}
+        <TaskForm />
+        
         <section>
-          <TaskList tasks={mockTasks} />
+          <TaskList />
         </section>
 
       </div>
