@@ -1,36 +1,180 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎯 Mini Focus Planner
 
-## Getting Started
+O **Mini Focus Planner** é uma aplicação web focada no gerenciamento simples, rápido e eficiente de tarefas diárias. Construído como um **MVP (Minimum Viable Product)**, o projeto prioriza uma experiência de usuário fluida, sem recarregamento de páginas, com organização clara e comportamento previsível.
 
-First, run the development server:
+---
+
+## ✨ Funcionalidades
+
+* ✅ **CRUD Completo**
+  Criação, leitura, edição e exclusão de tarefas.
+
+* 📝 **Campos Detalhados**
+  Suporte para:
+
+  * título obrigatório
+  * descrição
+  * categoria
+  * prioridade (`Baixa`, `Média`, `Alta`)
+
+* 🔄 **Controle de Status**
+  Alternância rápida entre tarefas:
+
+  * `Pendente`
+  * `Concluída`
+
+* 🔍 **Filtros Dinâmicos**
+  Filtragem de tarefas por status sem recarregar a página.
+
+* 📄 **Paginação Inteligente**
+  Navegação entre páginas com proteção contra estados inválidos.
+
+* 💾 **Persistência Local**
+  Armazenamento automático via `localStorage`.
+
+* 📱 **Responsividade**
+  Interface adaptável para dispositivos móveis e desktops.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+O projeto foi desenvolvido utilizando tecnologias modernas do ecossistema React:
+
+* **Next.js (App Router)** — Framework React para aplicações modernas.
+* **TypeScript** — Tipagem estática para maior segurança e previsibilidade.
+* **Tailwind CSS v4** — Estilização utilitária e responsiva.
+* **Zustand** — Gerenciamento de estado global leve e reativo.
+* **React Hook Form + Zod** — Formulários performáticos e validação robusta.
+* **Vitest + React Testing Library** — Testes unitários e de componentes.
+
+---
+
+## 🚀 Como Executar o Projeto Localmente
+
+### 📋 Pré-requisitos
+
+Certifique-se de possuir instalado:
+
+* **Node.js** `>= 18`
+
+---
+
+### 📥 Instalação
+
+#### 1. Clone o repositório
+
+```bash
+git clone https://github.com/jothas2000/mini-focus-planner-mvp.git
+```
+
+#### 2. Acesse a pasta do projeto
+
+```bash
+cd mini-focus-planner-mvp
+```
+
+#### 3. Instale as dependências
+
+```bash
+npm install
+```
+
+#### 4. Inicie o servidor de desenvolvimento
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🌐 Acesse no navegador
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```txt
+http://localhost:3000
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🧪 Executando os Testes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+O projeto utiliza **Vitest** e **React Testing Library** para a suíte de testes.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### ▶️ Executar testes em modo watch
 
-## Deploy on Vercel
+```bash
+npm run test
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ⚡ Executar todos os testes uma única vez
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run test:run
+```
+
+### 🖥️ Abrir interface gráfica do Vitest
+
+```bash
+npm run test:ui
+```
+
+---
+
+## 📄 Estratégia de Testes
+
+Para detalhes sobre:
+
+* o que testar
+* por que testar
+* como evitar testes frágeis
+
+consulte o documento:
+
+```txt
+docs/testing-strategy.md
+```
+
+---
+
+## 📂 Estrutura do Projeto
+
+```plaintext
+src/
+├── app/              # Rotas, layouts e estilos globais do Next.js
+├── components/       # Componentes reutilizáveis da interface
+├── hooks/            # Hooks customizados
+├── store/            # Estado global com Zustand
+└── types/            # Tipagens globais do TypeScript
+```
+
+---
+
+## 🎯 Objetivo do Projeto
+
+O objetivo do **Mini Focus Planner** é servir como um MVP moderno e escalável, demonstrando boas práticas em:
+
+* arquitetura frontend
+* gerenciamento de estado
+* validação de formulários
+* persistência local
+* testes automatizados
+* experiência do usuário
+
+---
+
+## 📌 Roadmap Futuro
+
+Possíveis melhorias futuras:
+
+* 🔐 Autenticação de usuários
+* ☁️ Persistência em banco de dados
+* 🌙 Tema dark/light
+* 📅 Organização por datas
+* 🔔 Notificações e lembretes
+* 📊 Dashboard de produtividade
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT.
