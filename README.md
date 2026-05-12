@@ -162,17 +162,6 @@ O objetivo do **Mini Focus Planner** é servir como um MVP moderno e escalável,
 
 ---
 
-## 📌 Roadmap Futuro
-
-Possíveis melhorias futuras:
-
-* 🔐 Autenticação de usuários
-* ☁️ Persistência em banco de dados
-* 🌙 Tema dark/light
-* 📅 Organização por datas
-* 🔔 Notificações e lembretes
-* 📊 Dashboard de produtividade
-
 ---
 
 ## 📄 Licença
