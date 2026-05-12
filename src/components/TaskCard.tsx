@@ -75,10 +75,13 @@ export function TaskCard({ task }: TaskCardProps) {
           </select>
 
           <div className="flex gap-2">
-            <button type="button" onClick={() => setIsEditing(false)} className="px-3 py-1 text-gray-600 hover:bg-gray-200 rounded">
+            <button type="button" onClick={() => setIsEditing(false)} 
+            className="px-3 py-1 text-gray-600 hover:bg-gray-200 rounded">
               Cancelar
             </button>
-            <button type="submit" className="px-3 py-1 bg-green-600 text-white hover:bg-green-700 rounded font-bold">
+            <button type="submit" 
+            aria-label="Salvar"
+            className="px-3 py-1 bg-green-600 text-white hover:bg-green-700 rounded font-bold">
               Salvar
             </button>
           </div>
@@ -110,13 +113,22 @@ export function TaskCard({ task }: TaskCardProps) {
             {task.description}
           </p>
         )}
+        {task.category && (
+          <p className={"text-gray-600"}>
+            {task.category}
+          </p>
+        )}
       </div>
 
       <div className="flex gap-1">
-        <button onClick={() => setIsEditing(true)} className="text-gray-400 hover:text-blue-500 transition-colors p-2" title="Editar tarefa">
+        <button onClick={() => setIsEditing(true)} 
+        aria-label="Editar"
+        className="text-gray-400 hover:text-blue-500 transition-colors p-2" title="Editar tarefa">
           ✏️
         </button>
-        <button onClick={() => deleteTask(task.id)} className="text-gray-400 hover:text-red-500 transition-colors p-2" title="Excluir tarefa">
+        <button onClick={() => deleteTask(task.id)} 
+        aria-label="Excluir"
+        className="text-gray-400 hover:text-red-500 transition-colors p-2" title="Excluir tarefa">
           🗑️
         </button>
       </div>

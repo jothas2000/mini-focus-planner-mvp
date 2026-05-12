@@ -17,11 +17,13 @@ export function TaskList() {
     useTaskStore, 
     (state) => state.tasks
   );
-
+  
   const [activeFilter, setActiveFilter] = useState<FilterType>("all");
   
   // começa na primeira
   const [currentPage, setCurrentPage] = useState(1); 
+
+  
 
   // reseta filtro e paginação ao mudar de filtro, para evitar páginas vazias
   function handleFilterChange(filter: FilterType) {
@@ -39,17 +41,14 @@ export function TaskList() {
     return task.status === activeFilter;
   });
 
-  /// calcula a paginação com base na lista filtrada
+  // calcula o total de páginas normalmente
   const totalPages = Math.ceil(filteredTasks.length / ITEMS_PER_PAGE) || 1;
 
-  // se a página atual ficar maior que o total (ex: apagou a última tarefa da página 2), 
-  // voltamos para a última página válida
-  if (currentPage > totalPages) {
-    setCurrentPage(totalPages);
-  }
+  // proteção para evitar páginas vazias: se a página atual for maior que o total de páginas, volta para a última página válida
+  const validCurrentPage = Math.min(currentPage, totalPages);
 
-  // fatia a lista filtrada para mostrar apenas os itens da página atual
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  // calcula os índices para fatiar as tarefas filtradas e pegar somente as que devem aparecer na página atual
+  const startIndex = (validCurrentPage - 1) * ITEMS_PER_PAGE;
   const paginatedTasks = filteredTasks.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
   return (
@@ -88,18 +87,18 @@ export function TaskList() {
           {totalPages > 1 && (
             <div className="flex justify-between items-center mt-4 p-4 bg-white border rounded-lg shadow-sm">
               <button 
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={validCurrentPage === 1}
+                onClick={() => setCurrentPage(validCurrentPage - 1)}
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
               >
                 Anterior
               </button>
               <span className="text-sm text-gray-600 font-medium">
-                Página {currentPage} de {totalPages}
+                Página {validCurrentPage} de {totalPages}
               </span>
               <button 
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                disabled={validCurrentPage === totalPages}
+                onClick={() => setCurrentPage(validCurrentPage + 1)}
                 className="px-4 py-2 bg-gray-100 text-gray-700 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-200 transition-colors"
               >
                 Próxima
