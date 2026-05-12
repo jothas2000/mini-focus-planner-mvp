@@ -10,28 +10,28 @@ describe('AddTaskForm', () => {
   });
 
   it('deve renderizar os campos de título, descrição, categoria, prioridade e o botão', () => {
-    // 1. Arrange: Desenhamos o componente na tela virtual
+    // desenhamos o componente na tela virtual
     render(<TaskForm />); 
 
-    // 2. Act & Assert: Procuramos os elementos e esperamos que eles estejam no documento
+    // procuramos os elementos e esperamos que eles estejam no documento
     
     // procura o input de título pelo texto do placeholder
     const titleInput = screen.getByPlaceholderText('O que precisa ser feito?');
     expect(titleInput).toBeInTheDocument(); // espera que ele tenha aparecido na telaq
 
-    // Procura o textarea de descrição
+    // procura o input de descrição pelo texto do placeholder
     const descInput = screen.getByPlaceholderText('Adicione uma descrição (opcional)');
     expect(descInput).toBeInTheDocument();
 
-    // Procura o input de categoria
+    // procura na tela o input de categoria pelo placeholder
     const categoryInput = screen.getByPlaceholderText('Categoria (ex: Estudos, Trabalho)');
     expect(categoryInput).toBeInTheDocument();
 
-    // Procura o select (aqui usamos getByRole, que busca pelo tipo do elemento no HTML)
+    // procura o select getbyrole que procura pelo elemento HTML
     const prioritySelect = screen.getByRole('combobox'); 
     expect(prioritySelect).toBeInTheDocument();
 
-    // Procura o botão (também por Role, e especificamos o texto dentro dele)
+    // procura o botão pelo texto do nome, e espera que ele tenha aparecido na tela
     const submitButton = screen.getByRole('button', { name: 'Adicionar' });
     expect(submitButton).toBeInTheDocument();
   });
@@ -70,7 +70,7 @@ describe('AddTaskForm', () => {
     const user = userEvent.setup();
     render(<TaskForm />);
 
-    // Encontra o input de título e digite algo
+    // encontra o input de título e digite algo
     const titleInput = screen.getByPlaceholderText('O que precisa ser feito?');
     await user.type(titleInput, 'Minha nova tarefa');
 

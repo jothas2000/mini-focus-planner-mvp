@@ -73,10 +73,10 @@ describe('TaskList', () => {
   });
 
   it('deve exibir apenas o limite de itens por página e permitir a navegação', async () => {
-    // 1. Arrange: Preparamos 6 tarefas (o limite do nosso código é 5 por página)
+    // preparamos 6 tarefas como o limite é 5, nossa lista vai quebrar e criar a paginação
     const user = userEvent.setup();
     
-    // Truque rápido para gerar 6 tarefas falsas
+    // mocando as tasks
     const mockTasks = Array.from({ length: 6 }).map((_, index) => ({
       id: String(index),
       title: `Tarefa de Teste ${index + 1}`,
@@ -88,23 +88,23 @@ describe('TaskList', () => {
     useTaskStore.setState({ tasks: mockTasks });
     render(<TaskList />);
 
-    // 2. Assert Inicial: A Tarefa 1 deve estar na tela, mas a Tarefa 6 (da pág 2) NÃO pode estar
+    // Tarefa 1 deve estar na tela, mas a Tarefa 6 (da pág 2) NÃO pode estar
     expect(screen.getByText('Tarefa de Teste 1')).toBeInTheDocument();
     expect(screen.queryByText('Tarefa de Teste 6')).not.toBeInTheDocument();
 
-    // 3. Act: O usuário clica no botão de "Próxima" página
+    // usuário clica no botão de "Próxima" página
     const btnProxima = screen.getByRole('button', { name: 'Próxima' });
     await user.click(btnProxima);
 
-    // 4. Assert Final: Agora a Tarefa 6 deve estar visível, e a Tarefa 1 deve ter sumido
+    // agora a Tarefa 6 deve estar visível, e a Tarefa 1 deve ter sumido
     expect(screen.getByText('Tarefa de Teste 6')).toBeInTheDocument();
     expect(screen.queryByText('Tarefa de Teste 1')).not.toBeInTheDocument();
 
-    // 5. Act Adicional: O usuário clica no botão "Anterior" para voltar
+    // usuário clica no botão "Anterior" para voltar
     const btnAnterior = screen.getByRole('button', { name: 'Anterior' });
     await user.click(btnAnterior);
 
-    // 6. Assert Final: A Tarefa 1 deve voltar a aparecer, e a Tarefa 6 deve sumir novamente
+    // tarefa 1 deve voltar a aparecer, e a Tarefa 6 deve sumir novamente
     expect(screen.getByText('Tarefa de Teste 1')).toBeInTheDocument();
     expect(screen.queryByText('Tarefa de Teste 6')).not.toBeInTheDocument();
   });

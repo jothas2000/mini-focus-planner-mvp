@@ -59,7 +59,7 @@ describe('TaskCard', () => {
     const user = userEvent.setup();
     render(<TaskCard task={mockTask} />);
 
-    // olha o nosso aria-label maravilhoso brilhando aqui!
+    // aria-label sendo utilizado aqui
     const btnExcluir = screen.getByRole('button', { name: /excluir/i });
     await user.click(btnExcluir);
 
@@ -109,7 +109,7 @@ describe('TaskCard', () => {
     // criamos uma cópia da nossa mockTask, mas forçamos o status para 'done'
     const doneTask = { ...mockTask, status: 'done' as const };
     
-    // Renderizamos o componente com essa tarefa específica
+    // renderizamos o componente com essa tarefa específica
     render(<TaskCard task={doneTask} />);
 
     // checkbox já deve nascer marcado
